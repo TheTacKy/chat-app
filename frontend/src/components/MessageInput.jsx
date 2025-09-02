@@ -12,7 +12,7 @@ const MessageInput = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if(!file.type.startsWith("immage/")) {
+    if(!file.type.startsWith("image/")) {
       toast.error("Please select an image file");
       return;
     }
@@ -22,6 +22,7 @@ const MessageInput = () => {
     reader.onloadend = () => {
       setImagePreview(reader.result);
     }
+    reader.readAsDataURL(file);
   };
 
   const removeImage = () => {
@@ -36,7 +37,7 @@ const MessageInput = () => {
     if (!text.trim() && !imagePreview) return;
     try {
       await sendMessage({
-        test: text.trim(),
+        text: text.trim(),
         image: imagePreview,
       });
 
