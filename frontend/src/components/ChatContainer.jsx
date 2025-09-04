@@ -10,14 +10,26 @@ import MessageInput from "./MessageInput"
 import { formatMessageTime } from '../lib/utils';
 
 const ChatContainer = () => {
-    const {getMessages, isMessagesLoading, selectedUser, messages} = useChatStore();
+    const {getMessages, 
+      isMessagesLoading, 
+      selectedUser, 
+      messages, 
+      subscribeToMessage, 
+      unsubscribeToMessage} = useChatStore();
     const { authUser } = useAuthStore();
+
+    useEffect(() => {
+      getMessages(selectedUser._id);
+      subscribeToMessage(); 
+      return () => unsubscribeToMessage();
+    }, [subscribeToMessage, unsubscribeToMessage]);
+
     useEffect(() => {
         if (selectedUser?._id) {
             getMessages(selectedUser._id);
         }
     }, [selectedUser?._id, getMessages]);
-
+    
     if(isMessagesLoading) {
         return (
             <div className="flex-1 flex flex-col overflow-auto">
