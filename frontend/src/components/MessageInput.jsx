@@ -72,7 +72,9 @@ const MessageInput = () => {
         </div>
       )}
 
-      <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+      <form onSubmit={handleSendMessage} className="flex items-center gap-2" autoComplete="off">
+        {/* Hidden dummy input to trick browser autocomplete */}
+        <input type="text" style={{ display: 'none' }} autoComplete="off" />
         <div className="flex-1 flex gap-2">
           <input
             type="text"
@@ -80,6 +82,11 @@ const MessageInput = () => {
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            data-form-type="other"
           />
           <input
             type="file"
