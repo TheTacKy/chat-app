@@ -26,6 +26,11 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
+// Health check endpoint for deployment
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "OK", timestamp: new Date().toISOString() });
+});
+
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "frontend/dist")));
     app.get("*", (req, res) => {
